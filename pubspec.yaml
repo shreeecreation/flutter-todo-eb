@@ -6,9 +6,15 @@ version: 1.0.0+1
 environment:
   sdk: '>=3.3.0 <4.0.0'
 
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/lottie/
+
 dependencies:
   flutter:
     sdk: flutter
+
 
   # State management
   flutter_bloc: ^8.1.5
@@ -25,6 +31,7 @@ dependencies:
   # Utilities
   equatable: ^2.0.5
   uuid: ^4.4.0
+  lottie: ^3.3.3
 
 dev_dependencies:
   flutter_test:

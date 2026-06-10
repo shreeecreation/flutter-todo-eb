@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class EmptyState extends StatelessWidget {
   const EmptyState({
@@ -18,7 +19,12 @@ class EmptyState extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         spacing: 16,
         children: [
-          Icon(icon, size: 64, color: theme.colorScheme.outlineVariant),
+          Lottie.asset(
+            'assets/lottie/empty.json',
+            width: 120,
+            height: 120,
+            fit: BoxFit.contain,
+          ),
           Text(
             message,
             style: theme.textTheme.bodyLarge?.copyWith(
