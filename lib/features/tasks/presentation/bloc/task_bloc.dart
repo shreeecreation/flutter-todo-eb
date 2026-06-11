@@ -171,7 +171,7 @@ Future<void> _onDelete(DeleteTask event, Emitter<TaskState> emit) async {
     } on CacheFailure {
       // swallow silently
     } finally {
-      add(ClearLastDeleted());
+      add(const ClearLastDeleted());
     }
   });
 }

@@ -97,7 +97,7 @@ class _SortTile extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 4),
         decoration: BoxDecoration(
           color: isSelected
-              ? cs.primaryContainer.withOpacity(0.6)
+              ? cs.primaryContainer.withValues(alpha: 0.6)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),

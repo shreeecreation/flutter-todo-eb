@@ -146,7 +146,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
     context
         .read<TaskBloc>()
         .add(_isEditing ? UpdateTask(task) : AddTask(task));
-        context.showSnackbar(title: "Task ${_isEditing ? 'updated' : 'created'}", message: "Task '${_title.text.trim()}' has been ${_isEditing ? 'updated' : 'created'}.", error: false);
+        context.showSnackbar(title: "Task ${_isEditing ? 'updated' : 'created'}", message: "Task '${_title.text.trim()}' has been ${_isEditing ? 'updated' : 'created'}.");
 
     Navigator.of(context).pop();
   }
@@ -180,7 +180,7 @@ class _DueDateSection extends StatelessWidget {
               color: cs.surfaceContainerLowest,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: cs.outlineVariant.withOpacity(0.5),
+                color: cs.outlineVariant.withValues(alpha: 0.5),
               ),
             ),
             child: Row(

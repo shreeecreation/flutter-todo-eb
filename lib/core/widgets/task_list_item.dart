@@ -37,12 +37,11 @@ class TaskListItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: cs.outlineVariant.withOpacity(0.4),
+                color: cs.outlineVariant.withValues(alpha: 0.4),
               ),
             ),
             padding: const EdgeInsets.fromLTRB(4, 10, 12, 10),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _PriorityStrip(priority: task.priority),
                 const SizedBox(width: 4),
@@ -75,7 +74,7 @@ class _PriorityStrip extends StatelessWidget {
       width: 3,
       height: 44,
       decoration: BoxDecoration(
-        color: color.withOpacity(0.7),
+        color: color.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(2),
       ),
     );
@@ -101,7 +100,7 @@ class _Checkbox extends StatelessWidget {
           shape: BoxShape.circle,
           color: isCompleted ? cs.primary : Colors.transparent,
           border: Border.all(
-            color: isCompleted ? cs.primary : cs.outline.withOpacity(0.5),
+            color: isCompleted ? cs.primary : cs.outline.withValues(alpha: 0.5),
             width: 1.5,
           ),
         ),
@@ -180,7 +179,7 @@ class _Actions extends StatelessWidget {
           child: Icon(
             Icons.delete_outline_rounded,
             size: 18,
-            color: cs.error.withOpacity(0.7),
+            color: cs.error.withValues(alpha: 0.7),
           ),
         ),
         const SizedBox(width: 10),

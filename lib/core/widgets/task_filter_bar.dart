@@ -64,7 +64,7 @@ class TaskFilterBar extends StatelessWidget {
                         horizontal: 6, vertical: 1),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? theme.colorScheme.primary.withOpacity(0.15)
+                          ? theme.colorScheme.primary.withValues(alpha: 0.15)
                           : theme.colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(20),
                     ),

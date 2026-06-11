@@ -31,7 +31,7 @@ class SnackbarWidget extends StatelessWidget {
           ),
           Expanded(
             child: ColoredBox(
-              color: bgColor.withOpacity(.6),
+              color: bgColor.withValues(alpha: .6),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
                 child: Column(

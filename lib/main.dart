@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/core/di/injection_container.dart';
 import 'package:todo_app/core/splash_page.dart';
 import 'package:todo_app/core/theme/theme_state.dart';
-import 'package:todo_app/core/utils/app_theme.dart';
 import 'package:todo_app/features/tasks/presentation/bloc/task_bloc.dart';
 import 'package:todo_app/features/tasks/presentation/bloc/task_event.dart';
-import 'package:todo_app/features/tasks/presentation/pages/task_list_page.dart';
 
 import 'core/theme/theme_cubit.dart';
 

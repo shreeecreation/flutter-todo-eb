@@ -133,7 +133,7 @@ class _SplashPageState extends State<SplashPage>
                   height: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: cs.primary.withOpacity(0.5),
+                    color: cs.primary.withValues(alpha: 0.5),
                   ),
                 ),
               ],
@@ -158,7 +158,7 @@ class _LogoMark extends StatelessWidget {
         color: cs.primaryContainer,
         borderRadius: BorderRadius.circular(26),
         border: Border.all(
-          color: cs.primary.withOpacity(0.15),
+          color: cs.primary.withValues(alpha: 0.15),
         ),
       ),
       child: Center(

@@ -14,7 +14,7 @@ void main() {
     title: 'Write unit tests',
     isCompleted: false,
     priority: TaskPriority.medium,
-    createdAt: DateTime(2024, 1, 1),
+    createdAt: DateTime(2024),
     order: 0,
   );
 

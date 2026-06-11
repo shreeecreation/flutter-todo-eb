@@ -21,7 +21,7 @@ final tTask = TaskEntity(
   title: 'Test task',
   isCompleted: false,
   priority: TaskPriority.medium,
-  createdAt: DateTime(2024, 1, 1),
+  createdAt: DateTime(2024),
   order: 0,
 );
 
@@ -91,7 +91,7 @@ void main() {
       build: buildBloc,
       setUp: () =>
           when(() => addTask(tTask)).thenAnswer((_) async {}),
-      seed: () => TaskLoaded(allTasks: const [], filter: TaskFilter.all),
+      seed: () => const TaskLoaded(allTasks: [], filter: TaskFilter.all),
       act: (b) => b.add(AddTask(tTask)),
       expect: () => [
         TaskLoaded(allTasks: [tTask], filter: TaskFilter.all),
@@ -104,11 +104,11 @@ void main() {
       build: buildBloc,
       setUp: () =>
           when(() => addTask(tTask)).thenThrow(const CacheFailure()),
-      seed: () => TaskLoaded(allTasks: const [], filter: TaskFilter.all),
+      seed: () => const TaskLoaded(allTasks: [], filter: TaskFilter.all),
       act: (b) => b.add(AddTask(tTask)),
       expect: () => [
         TaskLoaded(allTasks: [tTask], filter: TaskFilter.all), // optimistic
-        TaskLoaded(allTasks: const [], filter: TaskFilter.all), // rollback
+        const TaskLoaded(allTasks: [], filter: TaskFilter.all), // rollback
         const TaskError('Local storage error'),
       ],
     );

@@ -17,7 +17,7 @@ void main() {
     title: 'Test repo',
     isCompleted: false,
     priority: TaskPriority.low,
-    createdAt: DateTime(2024, 1, 1),
+    createdAt: DateTime(2024),
     order: 0,
   );
 

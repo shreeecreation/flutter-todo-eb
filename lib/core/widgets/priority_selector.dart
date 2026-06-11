@@ -42,13 +42,13 @@ class PrioritySelector extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? color.withOpacity(0.12)
+                          ? color.withValues(alpha: 0.12)
                           : theme.colorScheme.surfaceContainerLowest,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         color: isSelected
-                            ? color.withOpacity(0.6)
-                            : theme.colorScheme.outlineVariant.withOpacity(0.4),
+                            ? color.withValues(alpha: 0.6)
+                            : theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
                       ),
                     ),
                     child: Text(

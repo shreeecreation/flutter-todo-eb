@@ -14,7 +14,7 @@ static ThemeData get light => ThemeData(
 static ThemeData get dark => ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      scaffoldBackgroundColor: Color(0xFF080708),
+      scaffoldBackgroundColor: const Color(0xFF080708),
       colorSchemeSeed: _seedColor,
     );
 
