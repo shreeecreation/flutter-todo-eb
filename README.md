@@ -63,7 +63,7 @@ To run this project locally, follow these steps:
 
 ## Screenshots & Demo
 
-*(Placeholder for screenshots or a short video demonstrating the app's functionality.)*
+[Watch the video](https://drive.google.com/file/d/1TxSHz16U2oDlJEPJ__Ac2axULIZRinj8/view?usp=sharing)
 
 ## Future Enhancements
 
