@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/core/error/failures.dart';
+import 'package:todo_app/core/extensions/sort_extension.dart';
 import 'package:todo_app/core/utils/constants.dart';
 import 'package:todo_app/features/tasks/domain/usecases/task_usecases.dart';
 import 'package:todo_app/features/tasks/presentation/bloc/task_event.dart';
@@ -31,6 +32,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<ReorderTasks>(_onReorder);
     on<SearchTasks>(_onSearch);
     on<FilterChanged>(_onFilterChanged);
+    on<ApplySort>(_onApplySort);
+    on<ClearLastDeleted>(_onClearLastDeleted);
+
   }
 
   final GetTasksUseCase _getTasks;
@@ -90,32 +94,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     }
   }
 
-  Future<void> _onDelete(DeleteTask event, Emitter<TaskState> emit) async {
-    final current = state;
-    if (current is! TaskLoaded) return;
-
-    final deleted =
-        current.allTasks.firstWhere((t) => t.id == event.taskId);
-    final remaining =
-        current.allTasks.where((t) => t.id != event.taskId).toList();
-
-    // optimistic update — hold deleted task in state for undo
-    emit(current.copyWith(allTasks: remaining, lastDeleted: deleted));
-
-    _undoTimer?.cancel();
-    _undoTimer = Timer(AppConstants.undoDeleteDuration, () async {
-      try {
-        await _deleteTask(deleted.id);
-      } on CacheFailure {
-        // already removed from UI, swallow silently
-      } finally {
-        if (state is TaskLoaded) {
-          emit((state as TaskLoaded).copyWith(clearLastDeleted: true));
-        }
-      }
-    });
-  }
-
   Future<void> _onUndoDelete(
     UndoDelete event,
     Emitter<TaskState> emit,
@@ -160,6 +138,51 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     if (current is! TaskLoaded) return;
     emit(current.copyWith(filter: event.filter));
   }
+
+  void _onApplySort(ApplySort event, Emitter<TaskState> emit) {
+  final current = state;
+  if (current is! TaskLoaded) return;
+
+  if (event.option == null) {
+    final restored = [...current.allTasks]
+      ..sort((a, b) => a.order.compareTo(b.order));
+    emit(current.copyWith(allTasks: restored, clearSort: true));
+    return;
+  }
+
+  final sorted = event.option!.apply(current.allTasks);
+  emit(current.copyWith(allTasks: sorted, currentSort: event.option));
+}
+
+Future<void> _onDelete(DeleteTask event, Emitter<TaskState> emit) async {
+  final current = state;
+  if (current is! TaskLoaded) return;
+
+  final deleted = current.allTasks.firstWhere((t) => t.id == event.taskId);
+  final remaining =
+      current.allTasks.where((t) => t.id != event.taskId).toList();
+
+  emit(current.copyWith(allTasks: remaining, lastDeleted: deleted));
+
+  _undoTimer?.cancel();
+  _undoTimer = Timer(AppConstants.undoDeleteDuration, () async {
+    try {
+      await _deleteTask(deleted.id);
+    } on CacheFailure {
+      // swallow silently
+    } finally {
+      add(ClearLastDeleted());
+    }
+  });
+}
+void _onClearLastDeleted(
+  ClearLastDeleted event,
+  Emitter<TaskState> emit,
+) {
+  final current = state;
+  if (current is! TaskLoaded) return;
+  emit(current.copyWith(clearLastDeleted: true));
+}
 
   @override
   Future<void> close() {

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:todo_app/core/extensions/sort_extension.dart';
 import 'package:todo_app/features/tasks/domain/entities/task_entity.dart';
 
 sealed class TaskState extends Equatable {
@@ -22,12 +23,15 @@ final class TaskLoaded extends TaskState {
     required this.filter,
     this.searchQuery = '',
     this.lastDeleted,
+    this.currentSort,
   });
 
   final List<TaskEntity> allTasks;
   final TaskFilter filter;
   final String searchQuery;
   final TaskEntity? lastDeleted;
+    final SortOption? currentSort;  
+
 
   List<TaskEntity> get visibleTasks {
     var tasks = allTasks;
@@ -59,18 +63,22 @@ final class TaskLoaded extends TaskState {
     String? searchQuery,
     TaskEntity? lastDeleted,
     bool clearLastDeleted = false,
+     SortOption? currentSort,
+    bool clearSort = false, 
   }) {
     return TaskLoaded(
       allTasks: allTasks ?? this.allTasks,
       filter: filter ?? this.filter,
       searchQuery: searchQuery ?? this.searchQuery,
       lastDeleted: clearLastDeleted ? null : (lastDeleted ?? this.lastDeleted),
+            currentSort: clearSort ? null : (currentSort ?? this.currentSort),
+
     );
   }
 
   @override
   List<Object?> get props =>
-      [allTasks, filter, searchQuery, lastDeleted];
+      [allTasks, filter, searchQuery, lastDeleted,currentSort];
 }
 
 final class TaskError extends TaskState {

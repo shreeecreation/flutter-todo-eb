@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:todo_app/core/extensions/sort_extension.dart';
 import 'package:todo_app/features/tasks/domain/entities/task_entity.dart';
 
 sealed class TaskEvent extends Equatable {
@@ -70,4 +71,16 @@ final class FilterChanged extends TaskEvent {
 
   @override
   List<Object?> get props => [filter];
+}
+
+final class ApplySort extends TaskEvent {
+  const ApplySort(this.option);
+  final SortOption? option;
+
+  @override
+  List<Object?> get props => [option];
+}
+
+final class ClearLastDeleted extends TaskEvent {
+  const ClearLastDeleted();
 }

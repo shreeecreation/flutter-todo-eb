@@ -9,6 +9,7 @@ import 'package:todo_app/features/tasks/presentation/bloc/task_event.dart';
 import 'package:todo_app/features/tasks/presentation/bloc/task_state.dart';
 import 'package:todo_app/features/tasks/presentation/pages/task_form_page.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../widgets/sort_bottom_sheet.dart';
 
 class TaskListPage extends StatelessWidget {
   const TaskListPage({super.key});
@@ -77,25 +78,64 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final loaded = state is TaskLoaded ? state as TaskLoaded : null;
+
     return AppBar(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: cs.surfaceContainerLowest,
       surfaceTintColor: Colors.transparent,
       elevation: 0,
-      title: Text(
-        AppConstants.appName,
-        style: theme.textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppConstants.appName,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          if (loaded != null)
+            Text(
+              _subtitle(loaded),
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: cs.onSurfaceVariant,
+              ),
+            ),
+        ],
       ),
       actions: [
-        IconButton(
-          icon: const Icon(Icons.brightness_6_rounded),
-          onPressed: () {
-            context.read<ThemeCubit>().toggleTheme();
-          },
-        ),
+        if (loaded != null)
+          IconButton(
+            icon: Icon(
+              Icons.sort_rounded,
+              color: loaded.currentSort != null ? cs.primary : null,
+            ),
+            tooltip: 'Sort',
+            onPressed: () => _openSort(context, loaded),
+          ),
+
+          IconButton(
+            icon: const Icon(Icons.sunny),
+            tooltip: 'Mode',
+            onPressed: () => context.read<ThemeCubit>().toggleTheme()
+          ),
       ],
     );
+  }
+
+  String _subtitle(TaskLoaded state) {
+    final total = state.allTasks.length;
+    if (total == 0) return 'No tasks yet';
+    return '${state.completedCount} of $total completed';
+  }
+
+  Future<void> _openSort(BuildContext context, TaskLoaded state) async {
+    final result = await SortBottomSheet.show(
+      context,
+      current: state.currentSort,
+    );
+    if (!context.mounted) return;
+    context.read<TaskBloc>().add(ApplySort(result));
   }
 }
 
