@@ -51,6 +51,15 @@ To run this project locally, follow these steps:
     ```bash
     flutter run
     ```
+4.  **Test the application**:
+    ```bash
+    flutter test
+    ```
+5.  **Test specific features**:
+    ```bash
+    flutter test/features/tasks/bloc/task_bloc_test.dart 
+    ```
+    
 
 ## Screenshots & Demo
 
